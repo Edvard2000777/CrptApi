@@ -3,7 +3,9 @@ package org.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+
 import java.net.URI;
+
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -18,7 +20,8 @@ public class CrptApi {
     private final Semaphore requestSemaphore;
     private final HttpClient httpClient;
 
-    public CrptApi(TimeUnit timeUnit, int requestLimit) {
+
+    public CrptApi(TimeUnit timeUnit, int requestLimit, HttpClient client) {
         this.requestSemaphore = new Semaphore(requestLimit);
         this.httpClient = HttpClient.newHttpClient();
         scheduleSemaphoreReset(timeUnit);
