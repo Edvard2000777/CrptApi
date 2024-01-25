@@ -20,7 +20,6 @@ public class CrptApi {
     private final Semaphore requestSemaphore;
     private final HttpClient httpClient;
 
-
     public CrptApi(TimeUnit timeUnit, int requestLimit, HttpClient client) {
         this.requestSemaphore = new Semaphore(requestLimit);
         this.httpClient = HttpClient.newHttpClient();

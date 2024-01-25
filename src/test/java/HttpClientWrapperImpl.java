@@ -22,5 +22,4 @@ public class HttpClientWrapperImpl implements HttpClientWrapper {
             throw new RuntimeException(e);
         }
     }
-
 }
