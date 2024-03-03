@@ -3,16 +3,29 @@ import java.net.http.HttpClient;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    private static HttpClient httpClient;
-
     public static void main(String[] args) {
+        // Создание HTTP-клиента
+        HttpClient httpClient = HttpClient.newHttpClient();
 
+        // Создание экземпляра CrptApi с временем ожидания 1 секунда и лимитом запросов 10
         CrptApi crptApi = new CrptApi(TimeUnit.SECONDS, 10, httpClient);
 
-        String documentJson = "{\"description\": { \"participantInn\": \"string\" }, \"doc_id\": \"string\", \"doc_status\": \"string\", \"doc_type\": \"LP_INTRODUCE_GOODS\", 109 \"importRequest\": true, \"owner_inn\": \"string\", \"participant_inn\": \"string\", \"producer_inn\": \"string\", \"production_date\": \"2020-01-23\", \"production_type\": \"string\", \"products\": [ { \"certificate_document\": \"string\", \"certificate_document_date\": \"2020-01-23\", \"certificate_document_number\": \"string\", \"owner_inn\": \"string\", \"producer_inn\": \"string\", \"production_date\": \"2020-01-23\", \"tnved_code\": \"string\", \"uit_code\": \"string\", \"uitu_code\": \"string\" } ], \"reg_date\": \"2020-01-23\", \"reg_number\": \"string\"}";
-        String signature = "sampleSignature";
+        // Создание документа JSON для отправки
+        String documentJson = "{\"key\": \"value\"}";
+        // Создание подписи
+        String signature = "signature";
 
-// Вызываем метод createDocument
+        // Создание документа через CrptApi
         crptApi.createDocument(documentJson, signature);
+
+        // Задержка для демонстрации
+        try {
+            Thread.sleep(20000); // Подождем 2 секунды
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Закрытие экземпляра CrptApi
+        crptApi.shutdown();
     }
 }
