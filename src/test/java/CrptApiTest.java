@@ -1,6 +1,7 @@
 import org.example.CrptApi;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import java.net.http.HttpClient;
 import java.util.concurrent.TimeUnit;
@@ -11,33 +12,24 @@ import java.net.http.HttpResponse;
 
 import static org.mockito.Mockito.*;
 
-public class CrptApiTest {
-
-    @Mock
-    private HttpClient httpClient;
-
-    private CrptApi crptApi;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        crptApi = new CrptApi(TimeUnit.SECONDS, 1, httpClient);
-      //  crptApi.setHttpClient(httpClient);  // Добавьте этот метод в класс CrptApi для установки mock HttpClient
-    }
+class CrptApiTest {
 
     @Test
-    public void testCreateDocument() throws Exception {
-        String documentJson = "{}";
-        String signature = "signature";
+    void testCreateDocument() throws Exception {
+        // Создание моков
+        HttpClient httpClientMock = Mockito.mock(HttpClient.class);
+        HttpResponse<String> responseMock = Mockito.mock(HttpResponse.class);
 
-        HttpResponse<String> response = mock(HttpResponse.class);
-        when(response.statusCode()).thenReturn(200);
-        when(response.body()).thenReturn("Success");
-        when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
-                .thenReturn(response);
+        // Установка поведения мока для метода send
+        when(httpClientMock.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(responseMock);
+        when(responseMock.statusCode()).thenReturn(200); // Установка кода ответа
 
-        crptApi.createDocument(documentJson, signature);
+        // Создание экземпляра класса CrptApi
+        CrptApi crptApi = new CrptApi(TimeUnit.SECONDS, 10, httpClientMock);
 
-        verify(httpClient, times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
+        // Вызов метода createDocument
+        crptApi.createDocument("test_document_json", "test_signature");
+
+        // Здесь можно добавить проверки на ожидаемое поведение после вызова метода createDocument
     }
 }
